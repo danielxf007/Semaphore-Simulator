@@ -7,7 +7,7 @@ var _content: String
 var _exec_clock_cycles: int
 var _curr_clock_cycles: int
 
-func _init(content: String, exec_clock_cycles: int) -> void:
+func init(content: String, exec_clock_cycles: int) -> void:
 	self._content = content
 	self._exec_clock_cycles = exec_clock_cycles
 	self._curr_clock_cycles = self.ZERO

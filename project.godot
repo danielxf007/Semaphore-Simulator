@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Sprite",
+"class": "CPU",
+"language": "GDScript",
+"path": "res://cpu.gd"
+}, {
 "base": "Object",
 "class": "Instruction",
 "language": "GDScript",
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://thread.gd"
 } ]
 _global_script_class_icons={
+"CPU": "",
 "Instruction": "",
 "SimuSemaphore": "",
 "SimuThread": ""
@@ -35,6 +41,10 @@ _global_script_class_icons={
 config/name="semaphore_simulator"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Scheduler="*res://scheduler.gd"
 
 [rendering]
 

@@ -7,3 +7,8 @@ func _ready():
 	sem.global_position = Vector2(100, 100)
 	sem.texture = self.texture
 	self.add_child(sem)
+#	var wait_time: float = 2.0
+#	var cpu: CPU = CPU.new()
+#	cpu.init(wait_time)
+#	self.add_child(cpu)
+#	cpu.play() 
