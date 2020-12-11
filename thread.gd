@@ -6,11 +6,19 @@ const ZERO: int = 0
 var _id: String
 var _instructions: Array
 var _PC: int
+var _active: bool
 
 func init(id: String, instructions: Array) -> void:
 	self._id = id
 	self._instructions = instructions
 	self._PC = self.ZERO
+	self._active = true
+
+func set_active(value: bool) -> void:
+	self._active = value
+
+func is_active() -> bool:
+	return self._active
 
 func get_instruction() -> Instruction:
 	return self._instructions[self._PC]

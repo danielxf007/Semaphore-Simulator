@@ -38,6 +38,4 @@ func process_thread() -> void:
 			self._thread.increment_PC()
 		self._clock.start()
 	else:
-		self._clock.stop()
-		self._thread = null
-		self.emit_signal("has_finished", self)
+		self.clear()
