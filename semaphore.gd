@@ -1,6 +1,4 @@
 extends Sprite
-signal thread_slept(simu_thread)
-signal thread_awakened(simu_thread)
 class_name SimuSemaphore
 
 const ZERO:int = 0
@@ -13,16 +11,20 @@ func init(id: String, value: int) -> void:
 	self._value = value
 	self._threads = []
 
+func get_id() -> String:
+	return self._id
+
 func wait(simu_thread: SimuThread) -> void:
 	self._value -= 1
 	if self._value < self.ZERO:
-		self.emit_signal("thread_slept", simu_thread)
+		simu_thread.set_active(false)
 		self._threads.append(simu_thread)
 
 func post() -> void:
 	self._value += 1
 	if not self._threads.empty():
-		self.emit_signal("thread_awakened", self._threads.pop_front())
+		var thread: SimuThread =  self._threads.pop_front()
+		thread.set_active(true)
 
 func destroy() -> void:
 	self.free()
