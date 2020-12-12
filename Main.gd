@@ -12,6 +12,7 @@ func _ready():
 	var j: String = i.substr(0, i.find(".wait()"))
 	print(j)
 	print(i)
+	print(not "")
 #	var wait_time: float = 2.0
 #	var cpu: CPU = CPU.new()
 #	cpu.init(wait_time)

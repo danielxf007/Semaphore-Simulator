@@ -5,17 +5,22 @@ class_name CPU
 
 const WAIT: String = ".wait()"
 const POST: String = ".post()"
+var _id: String
 var _clock: Timer
 var _thread: SimuThread
 var _instruction: Instruction
 
-func init(wait_time: float) -> void:
+func init(id: String, wait_time: float) -> void:
+	self._id = id
 	self._clock = Timer.new()
 	self._clock.wait_time = wait_time
 	self._clock.one_shot = true
 	self.add_child(self._clock)
 # warning-ignore:return_value_discarded
 	self._clock.connect("timeout", self, "process_thread")
+
+func get_id() -> String:
+	return self._id
 
 func set_thread(thread: SimuThread) -> void:
 	self._thread = thread

@@ -14,6 +14,9 @@ func init(id: String, instructions: Array) -> void:
 	self._PC = self.ZERO
 	self._active = true
 
+func get_id() -> String:
+	return self._id
+
 func set_active(value: bool) -> void:
 	self._active = value
 
