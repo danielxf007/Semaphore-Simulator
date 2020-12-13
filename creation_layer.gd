@@ -2,35 +2,24 @@ extends Node2D
 signal processor_created(processor)
 signal sem_created(sem)
 const EMPTY_MESSAGE: String = ""
-const PROCESSOR_CREATED: String = "Processor Created"
-const SEM_CREATED: String = "Semaphore Created"
-const THREAD_CREATED: String = "Thread Created"
-const ERR_FILL_MESSAGE: String = "Fill all the fields"
-const ERR_SAME_NAME: String = "Name already used"
-const ERR_INVALID_CYCLE_TIME: String = "Invalid Cycle Time"
-var processor_name: TextEdit
-var sem_name: TextEdit
-var thread_name: TextEdit
-var clock_cycles: TextEdit
-var sem_value: TextEdit
-var instructions: TextEdit
-var processor_message: Label
-var sem_message: Label
-var instruction_message: Label
+export(float) var CYCLE_TIME: float
+export(int) var N_CYCLES: int
+var err_messages: Dictionary = {"empty_fields": "Fill all the fields",
+"same_name": "Name is already used", "sem_value": "Invalid Semaphore Value"}
+var creations_messages: Dictionary = {"processor": "Processor Created",
+"sem": "Semaphore Created", "thread": "Thread Created"}
+var text_fields: Dictionary
+var label_messages: Dictionary
 var processors: Array
 var semaphores: Array
 var threads: Array
 
 func _ready():
-	self.processor_name = $ProcessorName
-	self.sem_name = $SemName
-	self.thread_name = $ThreadName
-	self.clock_cycles = $ClockCycles
-	self.sem_value = $SemValue
-	self.instructions = $Instructions
-	self.processor_message = $ProcessorMessage
-	self.sem_message = $SemMessage
-	self.instruction_message = $InstructionMessage
+	self.text_fields = {"processor_name": $ProcessorName, "sem_name": $SemName,
+	"thread_name": $ThreadName, "sem_value": $SemValue,
+	"instructions": $Instructions}
+	self.label_messages = {"processor_message": $ProcessorMessage,
+	"sem_message": $SemMessage, "thread_message": $InstructionMessage}
 	self.processors = []
 	self.semaphores = []
 	self.threads = []
@@ -44,42 +33,74 @@ func is_name_already_used(elements: Array, _name: String) -> bool:
 	return already_used
 
 func _on_CreateProcessor_button_down():
-	var _name: String = self.processor_name.text
-	var _clock_cycles: String = self.clock_cycles.text
-	var wait_time: float = float(_clock_cycles)
-	if not _name or not _clock_cycles:
-		self.processor_message.text = self.ERR_FILL_MESSAGE
+	var _name: String = self.text_fields["processor_name"].text
+	if not _name:
+		self.label_messages["processor_message"].text = self.err_messages["empty_fields"]
 	elif self.is_name_already_used(self.processors, _name):
-		self.processor_message.text = self.ERR_SAME_NAME
-	elif not wait_time:
-		self.processor_message.text = self.ERR_INVALID_CYCLE_TIME
+		self.label_messages["processor_message"].text = self.err_messages["same_name"]
 	else:
 		var processor: CPU = CPU.new()
-		processor.init(_name, wait_time)
+		processor.init(_name, self.CYCLE_TIME)
 		self.processors.append(processor)
 		self.emit_signal("processor_created", processor)
-		self.processor_message.text = self.PROCESSOR_CREATED
-		self.processor_name.text = self.EMPTY_MESSAGE
-		self.clock_cycles.text = self.EMPTY_MESSAGE
+		self.label_messages["processor_message"].text = self.creations_messages["processor"]
+		self.text_fields["processor_name"].text = self.EMPTY_MESSAGE
 	$ProcessorTimer.start()
 
 
 func _on_CreateSem_button_down():
-	pass # Replace with function body.
+	var _name: String = self.text_fields["sem_name"].text
+	var _value: String = self.text_fields["sem_value"].text
+	var _sem_value: int = int(_value)
+	if not _name or not _value:
+		self.label_messages["sem_message"].text = self.err_messages["empty_fields"]
+	elif self.is_name_already_used(self.semaphores, _name):
+		self.label_messages["sem_message"].text = self.err_messages["same_name"]
+	elif not _sem_value:
+		self.label_messages["sem_message"].text = self.err_messages["sem_value"]
+	else:
+		var sem: SimuSemaphore = SimuSemaphore.new()
+		sem.init(_name, _sem_value)
+		self.semaphores.append(sem)
+		self.emit_signal("sem_created", sem)
+		self.label_messages["sem_message"].text = self.creations_messages["sem"]
+		self.text_fields["sem_name"].text = self.EMPTY_MESSAGE
+		self.text_fields["sem_value"].text = self.EMPTY_MESSAGE
+	$SemTimer.start()
 
-
+func create_instructions(instructions: Array) -> Array:
+	var elements: Array = []
+	var instruction: Instruction
+	for inst in instructions:
+		instruction = Instruction.new()
+		instruction.init(inst, self.N_CYCLES)
+		elements.append(instruction)
+	return elements
+	
 func _on_CreateInstructions_button_down():
-	pass # Replace with function body.
-
+	var _name: String = self.text_fields["thread_name"].text
+	var _instructions: String = self.text_fields["instructions"].text
+	if not _name or not _instructions:
+		self.label_messages["thread_message"].text = self.err_messages["empty_fields"]
+	elif self.is_name_already_used(self.threads, _name):
+		self.label_messages["thread_message"].text = self.err_messages["same_name"]
+	else:
+		var instructions: Array = Array(_instructions.split("\n"))
+		var thread: SimuThread = SimuThread.new()
+		var thread_instructions: Array = self.create_instructions(instructions)
+		thread.init(_name, thread_instructions)
+		self.threads.append(thread)
+		self.label_messages["thread_message"].text = self.creations_messages["thread"]
+		self.text_fields["thread_name"].text = self.EMPTY_MESSAGE
+		self.text_fields["instructions"].text = self.EMPTY_MESSAGE
+	$ThreadTimer.start()
 
 
 func _on_ProcessorTimer_timeout():
-	self.processor_message.text = self.EMPTY_MESSAGE
-
+	self.label_messages["processor_message"].text = self.EMPTY_MESSAGE
 
 func _on_SemTimer_timeout():
-	self.sem_message.text = self.EMPTY_MESSAGE
-
+	self.label_messages["sem_message"].text = self.EMPTY_MESSAGE
 
 func _on_ThreadTimer_timeout():
-	self.instruction_message.text = self.EMPTY_MESSAGE
+	self.label_messages["thread_message"].text = self.EMPTY_MESSAGE

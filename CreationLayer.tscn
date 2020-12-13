@@ -35,15 +35,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ClockCycles" type="TextEdit" parent="."]
-margin_left = 190.049
-margin_top = 299.37
-margin_right = 254.049
-margin_bottom = 331.37
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="SemValue" type="TextEdit" parent="."]
 margin_left = 207.986
 margin_top = 567.105
@@ -69,19 +60,6 @@ margin_right = 169.0
 margin_bottom = 269.198
 rect_pivot_offset = Vector2( 0, 140.059 )
 text = "Processor Name"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ClockCyclesL" type="Label" parent="."]
-margin_left = 64.0
-margin_top = 300.0
-margin_right = 143.0
-margin_bottom = 332.0
-rect_pivot_offset = Vector2( 0, 140.059 )
-text = "Clock Cycle Time"
 align = 1
 valign = 1
 __meta__ = {
@@ -142,10 +120,10 @@ __meta__ = {
 }
 
 [node name="ProcessorMessage" type="Label" parent="."]
-margin_left = 285.0
-margin_top = 300.0
-margin_right = 440.0
-margin_bottom = 332.0
+margin_left = 238.751
+margin_top = 282.341
+margin_right = 393.751
+margin_bottom = 314.341
 rect_pivot_offset = Vector2( 0, 140.059 )
 align = 1
 valign = 1
@@ -178,10 +156,10 @@ __meta__ = {
 }
 
 [node name="CreateProcessor" type="Button" parent="."]
-margin_left = 284.866
-margin_top = 370.677
-margin_right = 337.866
-margin_bottom = 390.677
+margin_left = 284.025
+margin_top = 333.427
+margin_right = 337.025
+margin_bottom = 353.427
 text = "Create"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -208,12 +186,15 @@ __meta__ = {
 }
 
 [node name="ProcessorTimer" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 
 [node name="SemTimer" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 
 [node name="ThreadTimer" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 [connection signal="button_down" from="CreateProcessor" to="." method="_on_CreateProcessor_button_down"]
 [connection signal="button_down" from="CreateSem" to="." method="_on_CreateSem_button_down"]

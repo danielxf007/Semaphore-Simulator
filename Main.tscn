@@ -9,3 +9,5 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="CreationLayer" parent="." instance=ExtResource( 3 )]
+CYCLE_TIME = 0.5
+N_CYCLES = 4
