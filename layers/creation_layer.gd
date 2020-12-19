@@ -4,6 +4,7 @@ signal sem_created(sem)
 const EMPTY_MESSAGE: String = ""
 export(float) var CYCLE_TIME: float
 export(int) var N_CYCLES: int
+export(Dictionary) var TEXTURES: Dictionary
 var err_messages: Dictionary = {"empty_fields": "Fill all the fields",
 "same_name": "Name is already used", "sem_value": "Invalid Semaphore Value"}
 var creations_messages: Dictionary = {"processor": "Processor Created",
@@ -41,6 +42,7 @@ func _on_CreateProcessor_button_down():
 	else:
 		var processor: CPU = CPU.new()
 		processor.init(_name, self.CYCLE_TIME)
+		processor.texture = self.TEXTURES["cpu"]
 		self.processors.append(processor)
 		self.emit_signal("processor_created", processor)
 		self.label_messages["processor_message"].text = self.creations_messages["processor"]
@@ -61,6 +63,7 @@ func _on_CreateSem_button_down():
 	else:
 		var sem: SimuSemaphore = SimuSemaphore.new()
 		sem.init(_name, _sem_value)
+		sem.texture = self.TEXTURES["sem"]
 		self.semaphores.append(sem)
 		self.emit_signal("sem_created", sem)
 		self.label_messages["sem_message"].text = self.creations_messages["sem"]

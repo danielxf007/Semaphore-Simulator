@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/semaphore.png-5a920c7c9dae52add960b8c699ba1bea.stex"
+path="res://.import/cpu.png-069cb551719c7d3c655586758f8910b1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://semaphore.png"
-dest_files=[ "res://.import/semaphore.png-5a920c7c9dae52add960b8c699ba1bea.stex" ]
+source_file="res://assets/cpu.png"
+dest_files=[ "res://.import/cpu.png-069cb551719c7d3c655586758f8910b1.stex" ]
 
 [params]
 

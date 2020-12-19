@@ -12,31 +12,37 @@ _global_script_classes=[ {
 "base": "Sprite",
 "class": "CPU",
 "language": "GDScript",
-"path": "res://cpu.gd"
+"path": "res://simulation_elements/cpu.gd"
 }, {
 "base": "Object",
 "class": "Instruction",
 "language": "GDScript",
-"path": "res://instruction.gd"
+"path": "res://simulation_elements/instruction.gd"
+}, {
+"base": "Node",
+"class": "Organizer",
+"language": "GDScript",
+"path": "res://helpers/organizer.gd"
 }, {
 "base": "Node",
 "class": "SemaphoreDistributor",
 "language": "GDScript",
-"path": "res://sempahore_dist.gd"
+"path": "res://helpers/sempahore_dist.gd"
 }, {
 "base": "Sprite",
 "class": "SimuSemaphore",
 "language": "GDScript",
-"path": "res://semaphore.gd"
+"path": "res://simulation_elements/semaphore.gd"
 }, {
 "base": "Object",
 "class": "SimuThread",
 "language": "GDScript",
-"path": "res://thread.gd"
+"path": "res://simulation_elements/thread.gd"
 } ]
 _global_script_class_icons={
 "CPU": "",
 "Instruction": "",
+"Organizer": "",
 "SemaphoreDistributor": "",
 "SimuSemaphore": "",
 "SimuThread": ""
@@ -50,7 +56,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Scheduler="*res://scheduler.gd"
+Scheduler="*res://helpers/scheduler.gd"
 
 [display]
 
