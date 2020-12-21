@@ -22,8 +22,21 @@ TEXTURES = {
 
 [node name="Organizer" type="Node" parent="."]
 script = ExtResource( 6 )
+SEM_DIMENSIONS = Vector2( 64, 64 )
+CPU_DIMENSIONS = Vector2( 128, 128 )
 
 [node name="SimulationLayer" parent="." instance=ExtResource( 7 )]
+
+[node name="Label" type="Label" parent="."]
+margin_right = 20.0
+margin_bottom = 20.0
+text = "Hello"
+valign = 2
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="processor_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_processor_created"]
 [connection signal="sem_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_sem_created"]
-[connection signal="element_organized" from="Organizer" to="SimulationLayer" method="_on_Organizer_element_organized"]
+[connection signal="cpu_organized" from="Organizer" to="SimulationLayer" method="_on_Organizer_cpu_organized"]
+[connection signal="sem_organized" from="Organizer" to="SimulationLayer" method="_on_Organizer_sem_organized"]

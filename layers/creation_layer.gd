@@ -53,12 +53,13 @@ func _on_CreateProcessor_button_down():
 func _on_CreateSem_button_down():
 	var _name: String = self.text_fields["sem_name"].text
 	var _value: String = self.text_fields["sem_value"].text
+	print(_value)
 	var _sem_value: int = int(_value)
-	if not _name or not _value:
+	if _name.empty() or _value.empty():
 		self.label_messages["sem_message"].text = self.err_messages["empty_fields"]
 	elif self.is_name_already_used(self.semaphores, _name):
 		self.label_messages["sem_message"].text = self.err_messages["same_name"]
-	elif not _sem_value:
+	elif not _sem_value and _value != "0":
 		self.label_messages["sem_message"].text = self.err_messages["sem_value"]
 	else:
 		var sem: SimuSemaphore = SimuSemaphore.new()
