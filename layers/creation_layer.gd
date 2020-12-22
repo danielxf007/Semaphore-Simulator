@@ -1,6 +1,7 @@
 extends Node2D
 signal processor_created(processor)
 signal sem_created(sem)
+signal thread_created(thread)
 const EMPTY_MESSAGE: String = ""
 export(float) var CYCLE_TIME: float
 export(int) var N_CYCLES: int
@@ -34,17 +35,18 @@ func is_name_already_used(elements: Array, _name: String) -> bool:
 	return already_used
 
 func _on_CreateProcessor_button_down():
-	var _name: String = self.text_fields["processor_name"].text
-	if not _name:
+	var _n_processors_str: String = self.text_fields["processor_name"].text
+	var _n_processors: int = int(_n_processors_str)
+	if not _n_processors_str and _n_processors_str != "0":
 		self.label_messages["processor_message"].text = self.err_messages["empty_fields"]
-	elif self.is_name_already_used(self.processors, _name):
+	elif not _n_processors:
 		self.label_messages["processor_message"].text = self.err_messages["same_name"]
 	else:
-		var processor: CPU = CPU.new()
-		processor.init(_name, self.CYCLE_TIME)
-		processor.texture = self.TEXTURES["cpu"]
-		self.processors.append(processor)
-		self.emit_signal("processor_created", processor)
+		for _i in range(_n_processors):
+			var processor: CPU = CPU.new()
+			processor.init(self.CYCLE_TIME)
+			processor.texture = self.TEXTURES["cpu"]
+			self.emit_signal("processor_created", processor)
 		self.label_messages["processor_message"].text = self.creations_messages["processor"]
 		self.text_fields["processor_name"].text = self.EMPTY_MESSAGE
 	$ProcessorTimer.start()
@@ -93,6 +95,7 @@ func _on_CreateInstructions_button_down():
 		var thread: SimuThread = SimuThread.new()
 		var thread_instructions: Array = self.create_instructions(instructions)
 		thread.init(_name, thread_instructions)
+		self.emit_signal("thread_created", thread)
 		self.threads.append(thread)
 		self.label_messages["thread_message"].text = self.creations_messages["thread"]
 		self.text_fields["thread_name"].text = self.EMPTY_MESSAGE

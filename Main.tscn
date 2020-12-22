@@ -27,16 +27,47 @@ CPU_DIMENSIONS = Vector2( 128, 128 )
 
 [node name="SimulationLayer" parent="." instance=ExtResource( 7 )]
 
+[node name="cpu" type="Sprite" parent="."]
+scale = Vector2( 0.067, 0.067 )
+texture = ExtResource( 4 )
+
 [node name="Label" type="Label" parent="."]
-margin_right = 20.0
-margin_bottom = 20.0
-text = "Hello"
+margin_left = -64.0
+margin_top = -128.0
+margin_right = 64.0
+margin_bottom = -64.0
+text = "Nvidia"
+align = 1
 valign = 2
-autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = -64.0
+margin_top = 64.0
+margin_right = 64.0
+margin_bottom = 128.0
+text = "A: Thread++"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="."]
+margin_left = -27.0
+margin_top = -27.0
+margin_right = 27.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "25%"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="processor_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_processor_created"]
 [connection signal="sem_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_sem_created"]
+[connection signal="thread_created" from="CreationLayer" to="SimulationLayer" method="_on_CreationLayer_thread_created"]
 [connection signal="cpu_organized" from="Organizer" to="SimulationLayer" method="_on_Organizer_cpu_organized"]
 [connection signal="sem_organized" from="Organizer" to="SimulationLayer" method="_on_Organizer_sem_organized"]

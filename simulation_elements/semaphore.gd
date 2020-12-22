@@ -43,6 +43,3 @@ func set_labels(up_label: Label, down_label: Label) -> void:
 func reset() -> void:
 	self._value = self._init_value
 	self._down_label.text = self.VALUE + str(self._value)
-
-func destroy() -> void:
-	self.free()

@@ -1,8 +1,8 @@
 extends Node
-signal cpu_organized(cpu, dimensions)
-signal sem_organized(sem, dimensions)
+signal cpu_organized(cpu)
+signal sem_organized(sem)
 class_name Organizer
-const START_SEM_POS: Vector2 = Vector2(96, 160)
+const START_SEM_POS: Vector2 = Vector2(96, 96)
 const START_CPU_POS: Vector2 = Vector2(96, 288)
 const WHITE_SPACE: Vector2 = Vector2(64, 64)
 const MAX_ROW_NUMBER: int = 4
@@ -38,7 +38,7 @@ func positionate_sem(sem: SimuSemaphore) -> void:
 func positionate_cpu(cpu: CPU) -> void:
 	cpu.global_position = self.curr_cpu_pos
 	if self.curr_row_number < self.MAX_ROW_NUMBER:
-		self.curr_cpu_pos.x += 2.5*self.WHITE_SPACE.x
+		self.curr_cpu_pos.x += 3*self.WHITE_SPACE.x
 		self.curr_row_number += 1
 	else:
 		self.curr_cpu_pos.x = self.START_CPU_POS.x
@@ -48,12 +48,12 @@ func positionate_cpu(cpu: CPU) -> void:
 func _on_CreationLayer_processor_created(processor: CPU) -> void:
 	self.scale_cpu(processor)
 	self.positionate_cpu(processor)
-	self.emit_signal("cpu_organized", processor, self.CPU_DIMENSIONS)
+	self.emit_signal("cpu_organized", processor)
 
 func _on_CreationLayer_sem_created(sem: SimuSemaphore) -> void:
 	self.scale_semaphore(sem)
 	self.positionate_sem(sem)
-	self.emit_signal("sem_organized", sem, self.SEM_DIMENSIONS)
+	self.emit_signal("sem_organized", sem)
 
 func reset() -> void:
 	self.curr_sem_pos = self.START_SEM_POS

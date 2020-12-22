@@ -18,6 +18,9 @@ func get_content() -> String:
 func increment_curr_exec_clock_cycles() -> void:
 	self._curr_clock_cycles += 1
 
+func get_percentage() -> float:
+	return (float(self._curr_clock_cycles)/float(self._exec_clock_cycles))*100
+
 func reset() -> void:
 	self._curr_clock_cycles = self.ZERO
 
