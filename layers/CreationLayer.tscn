@@ -6,20 +6,19 @@
 script = ExtResource( 1 )
 
 [node name="ProcessorName" type="TextEdit" parent="."]
-margin_left = 189.063
-margin_top = 235.551
-margin_right = 445.063
-margin_bottom = 267.551
-rect_pivot_offset = Vector2( 156, 107.828 )
+margin_left = 250.897
+margin_top = 499.036
+margin_right = 282.897
+margin_bottom = 531.036
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SemName" type="TextEdit" parent="."]
-margin_left = 206.494
-margin_top = 494.544
-margin_right = 462.494
-margin_bottom = 526.544
+margin_left = 202.585
+margin_top = 231.911
+margin_right = 458.585
+margin_bottom = 263.911
 rect_pivot_offset = Vector2( 156, 107.828 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -36,10 +35,10 @@ __meta__ = {
 }
 
 [node name="SemValue" type="TextEdit" parent="."]
-margin_left = 207.986
-margin_top = 567.105
-margin_right = 271.986
-margin_bottom = 599.105
+margin_left = 204.051
+margin_top = 279.432
+margin_right = 268.051
+margin_bottom = 311.432
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -54,12 +53,12 @@ __meta__ = {
 }
 
 [node name="ProcessorNameL" type="Label" parent="."]
-margin_left = 64.0
-margin_top = 237.198
-margin_right = 169.0
-margin_bottom = 269.198
+margin_left = 80.9706
+margin_top = 498.828
+margin_right = 185.971
+margin_bottom = 530.828
 rect_pivot_offset = Vector2( 0, 140.059 )
-text = "Processor Name"
+text = "Number of Processors"
 align = 1
 valign = 1
 __meta__ = {
@@ -67,10 +66,10 @@ __meta__ = {
 }
 
 [node name="SemNameL" type="Label" parent="."]
-margin_left = 79.7925
-margin_top = 492.024
-margin_right = 158.793
-margin_bottom = 524.024
+margin_left = 61.7419
+margin_top = 236.282
+margin_right = 175.742
+margin_bottom = 268.282
 rect_pivot_offset = Vector2( 0, 140.059 )
 text = "Semaphore Name"
 align = 1
@@ -80,10 +79,10 @@ __meta__ = {
 }
 
 [node name="SemValueL" type="Label" parent="."]
-margin_left = 79.7925
-margin_top = 572.246
-margin_right = 158.793
-margin_bottom = 604.246
+margin_left = 63.4647
+margin_top = 278.398
+margin_right = 174.465
+margin_bottom = 310.398
 rect_pivot_offset = Vector2( 0, 140.059 )
 text = "Semaphore Value"
 align = 1
@@ -120,10 +119,10 @@ __meta__ = {
 }
 
 [node name="ProcessorMessage" type="Label" parent="."]
-margin_left = 238.751
-margin_top = 282.341
-margin_right = 393.751
-margin_bottom = 314.341
+margin_left = 122.21
+margin_top = 610.775
+margin_right = 277.21
+margin_bottom = 642.775
 rect_pivot_offset = Vector2( 0, 140.059 )
 align = 1
 valign = 1
@@ -144,10 +143,10 @@ __meta__ = {
 }
 
 [node name="SemMessage" type="Label" parent="."]
-margin_left = 290.964
-margin_top = 571.144
-margin_right = 445.964
-margin_bottom = 603.144
+margin_left = 299.44
+margin_top = 280.393
+margin_right = 454.44
+margin_bottom = 312.393
 rect_pivot_offset = Vector2( 0, 140.059 )
 align = 1
 valign = 1
@@ -156,20 +155,20 @@ __meta__ = {
 }
 
 [node name="CreateProcessor" type="Button" parent="."]
-margin_left = 284.025
-margin_top = 333.427
-margin_right = 337.025
-margin_bottom = 353.427
+margin_left = 194.838
+margin_top = 565.801
+margin_right = 247.838
+margin_bottom = 585.801
 text = "Create"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CreateSem" type="Button" parent="."]
-margin_left = 284.866
-margin_top = 623.635
-margin_right = 337.866
-margin_bottom = 643.635
+margin_left = 245.6
+margin_top = 345.043
+margin_right = 298.6
+margin_bottom = 365.043
 text = "Create"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -196,9 +195,26 @@ one_shot = true
 [node name="ThreadTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+margin_left = 447.794
+margin_top = 363.277
+margin_right = 530.794
+margin_bottom = 421.277
+
+[node name="Button" type="Button" parent="."]
+margin_left = 460.057
+margin_top = 636.508
+margin_right = 524.057
+margin_bottom = 668.508
+text = "Next"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="button_down" from="CreateProcessor" to="." method="_on_CreateProcessor_button_down"]
 [connection signal="button_down" from="CreateSem" to="." method="_on_CreateSem_button_down"]
 [connection signal="button_down" from="CreateInstructions" to="." method="_on_CreateInstructions_button_down"]
 [connection signal="timeout" from="ProcessorTimer" to="." method="_on_ProcessorTimer_timeout"]
 [connection signal="timeout" from="SemTimer" to="." method="_on_SemTimer_timeout"]
 [connection signal="timeout" from="ThreadTimer" to="." method="_on_ThreadTimer_timeout"]
+[connection signal="button_down" from="Button" to="." method="_on_Button_button_down"]

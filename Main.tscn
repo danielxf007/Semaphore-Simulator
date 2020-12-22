@@ -26,6 +26,7 @@ SEM_DIMENSIONS = Vector2( 64, 64 )
 CPU_DIMENSIONS = Vector2( 128, 128 )
 
 [node name="SimulationLayer" parent="." instance=ExtResource( 7 )]
+visible = false
 
 [node name="cpu" type="Sprite" parent="."]
 scale = Vector2( 0.067, 0.067 )
@@ -66,6 +67,7 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="creation_finished" from="CreationLayer" to="SimulationLayer" method="_on_CreationLayer_creation_finished"]
 [connection signal="processor_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_processor_created"]
 [connection signal="sem_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_sem_created"]
 [connection signal="thread_created" from="CreationLayer" to="SimulationLayer" method="_on_CreationLayer_thread_created"]

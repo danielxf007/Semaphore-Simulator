@@ -33,7 +33,7 @@ func scale_cpu(cpu: CPU) -> void:
 
 func positionate_sem(sem: SimuSemaphore) -> void:
 	sem.global_position = self.curr_sem_pos
-	self.curr_sem_pos.x += 1.5*self.WHITE_SPACE.x
+	self.curr_sem_pos.x += 1.35*self.WHITE_SPACE.x
 
 func positionate_cpu(cpu: CPU) -> void:
 	cpu.global_position = self.curr_cpu_pos

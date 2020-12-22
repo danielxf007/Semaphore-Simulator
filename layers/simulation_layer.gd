@@ -89,3 +89,7 @@ func reset() -> void:
 
 func _on_CreationLayer_thread_created(thread: SimuThread) -> void:
 	self._threads.append(thread)
+
+
+func _on_CreationLayer_creation_finished():
+	self.show()
