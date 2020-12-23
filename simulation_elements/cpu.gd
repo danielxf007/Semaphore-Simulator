@@ -54,7 +54,8 @@ func pause() -> void:
 func clear() -> void:
 	self._down_label.text = ""
 	self._middle_label.text = ""
-	self._thread.set_active(false)
+	if self._thread:
+		self._thread.set_active(false)
 	self._thread = null
 	self._instruction = null
 

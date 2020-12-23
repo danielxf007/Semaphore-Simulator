@@ -36,9 +36,11 @@ func add_processor(_processor) -> void:
 
 func schedule_threads(cpu: CPU) -> void:
 	var thread: SimuThread = self._threads[self._curr_index]
-	if not thread.is_active():
+	if  not thread.has_finished() and not thread.is_active():
 		cpu.set_thread(thread)
 		self.decrement_curr_n_processors_available()
+		self.update_curr_index()
+	else:
 		self.update_curr_index()
 
 func update_curr_index() -> void:
