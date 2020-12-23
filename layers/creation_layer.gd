@@ -37,6 +37,10 @@ func _ready():
 	self.threads = []
 	self._curr_n_cpus = 0
 	self._curr_n_sems = 0
+# warning-ignore:return_value_discarded
+	self.connect("processor_created", Scheduler, "add_processor")
+# warning-ignore:return_value_discarded
+	self.connect("thread_created", Scheduler, "add_thread")
 
 func is_name_already_used(elements: Array, _name: String) -> bool:
 	var already_used = false

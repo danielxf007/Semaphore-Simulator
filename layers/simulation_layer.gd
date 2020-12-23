@@ -18,9 +18,30 @@ func _ready():
 	self._cpus = []
 	self._sems = []
 	self._threads = []
+# warning-ignore:return_value_discarded
+	$Play.connect("button_down", Scheduler, "play")
+# warning-ignore:return_value_discarded
+	$Pause.connect("button_down", Scheduler, "pause")
+# warning-ignore:return_value_discarded
+	$Reset.connect("button_down", Scheduler, "reset")
 
 func _on_Organizer_cpu_organized(cpu: CPU)->void:
 	self.add_child(cpu)
+# warning-ignore:return_value_discarded
+	Scheduler.connect("timer_finished", cpu, "interrupt")
+
+# warning-ignore:return_value_discarded
+	Scheduler.connect("played", cpu, "play")
+# warning-ignore:return_value_discarded
+	cpu.connect("interrupted", Scheduler, "increment_curr_n_processors_available")
+# warning-ignore:return_value_discarded
+	cpu.connect("needed_thread", Scheduler, "schedule_threads")
+# warning-ignore:return_value_discarded
+	$Play.connect("button_down", cpu, "play")
+# warning-ignore:return_value_discarded
+	$Pause.connect("button_down", cpu, "pause")
+# warning-ignore:return_value_discarded
+	$Reset.connect("button_down", cpu, "reset")
 	var down_l_position: Vector2 = cpu.global_position + self.CPU_DOWN_LABEL_OFFSET
 	var middle_l_position: Vector2 = cpu.global_position + self.CPU_MIDDLE_LABEL_OFFSET
 	var down_args: Dictionary = {"text": "",

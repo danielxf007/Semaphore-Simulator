@@ -12,7 +12,7 @@ func init(id: String, instructions: Array) -> void:
 	self._id = id
 	self._instructions = instructions
 	self._PC = self.ZERO
-	self._active = true
+	self._active = false
 
 func get_id() -> String:
 	return self._id
