@@ -29,15 +29,8 @@ func _on_Organizer_cpu_organized(cpu: CPU)->void:
 	self.add_child(cpu)
 # warning-ignore:return_value_discarded
 	Scheduler.connect("timer_finished", cpu, "interrupt")
-
-# warning-ignore:return_value_discarded
-	Scheduler.connect("played", cpu, "play")
 # warning-ignore:return_value_discarded
 	cpu.connect("interrupted", Scheduler, "increment_curr_n_processors_available")
-# warning-ignore:return_value_discarded
-	cpu.connect("needed_thread", Scheduler, "schedule_threads")
-# warning-ignore:return_value_discarded
-	$Play.connect("button_down", cpu, "play")
 # warning-ignore:return_value_discarded
 	$Pause.connect("button_down", cpu, "pause")
 # warning-ignore:return_value_discarded
@@ -109,6 +102,8 @@ func reset() -> void:
 
 
 func _on_CreationLayer_thread_created(thread: SimuThread) -> void:
+# warning-ignore:return_value_discarded
+	$Reset.connect("button_down", thread, "reset")
 	self._threads.append(thread)
 
 

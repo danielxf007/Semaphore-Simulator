@@ -48,6 +48,7 @@ margin_left = 610.964
 margin_top = 325.671
 margin_right = 866.964
 margin_bottom = 581.671
+show_line_numbers = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

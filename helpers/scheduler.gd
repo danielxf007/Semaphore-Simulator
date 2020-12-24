@@ -1,18 +1,18 @@
 extends Node
 
 signal timer_finished()
-signal played()
-const _INTERRUPT_TIME: float = 2.5
+const _INTERRUPT_TIME: float = 3.0
 var _interrupt_timer: Timer
 var _threads: Array
+var _processors: Array
 var _curr_index: int
 var _n_processors_available: int
 var _curr_processors_available: int
 
 func _ready():
 	self._threads = []
+	self._processors = []
 	self._curr_index = 0
-	self._n_processors_available = 0
 	self._curr_processors_available = 0
 	self._interrupt_timer = Timer.new()
 	self._interrupt_timer.wait_time = self._INTERRUPT_TIME
@@ -22,7 +22,9 @@ func _ready():
 	self._interrupt_timer.connect("timeout", self, "_on_InterruptTimer_timeout")
 
 func play() -> void:
-	self._interrupt_timer.start()
+	if not self.all_threads_finished():
+		self.schedule_threads()
+		self._interrupt_timer.start()
 
 func pause() -> void:
 	self._interrupt_timer.stop()
@@ -30,17 +32,28 @@ func pause() -> void:
 func add_thread(thread: SimuThread) -> void:
 	self._threads.append(thread)
 
-func add_processor(_processor) -> void:
-	self._n_processors_available += 1
+func get_current_thread() -> SimuThread:
+	return self._threads[self._curr_index]
+
+func all_threads_finished() -> bool:
+	var finished: bool = true
+	for thread in self._threads:
+		if not thread.has_finished():
+			finished = false
+			break
+	return finished
+
+func add_processor(processor: CPU) -> void:
+	self._processors.append(processor)
 	self._curr_processors_available += 1
 
-func schedule_threads(cpu: CPU) -> void:
-	var thread: SimuThread = self._threads[self._curr_index]
-	if  not thread.has_finished() and not thread.is_active():
-		cpu.set_thread(thread)
-		self.decrement_curr_n_processors_available()
-		self.update_curr_index()
-	else:
+func schedule_threads() -> void:
+	var thread: SimuThread
+	for processor in self._processors:
+		thread = self.get_current_thread()
+		if thread.can_be_executed():
+			processor.set_thread(thread)
+			self.decrement_curr_n_processors_available()
 		self.update_curr_index()
 
 func update_curr_index() -> void:
@@ -52,15 +65,20 @@ func decrement_curr_n_processors_available() -> void:
 
 func reset() -> void:
 	self._interrupt_timer.stop()
-	self._threads.clear()
 	self._curr_index = 0
-	self._n_processors_available = 0
+	self._curr_processors_available = self._processors.size()
+
+func clear() -> void:
+	self._interrupt_timer.stop()
+	self._threads.clear()
+	self._processors.clear()
+	self._curr_index = 0
+	self._curr_processors_available = 0
 
 func increment_curr_n_processors_available() -> void:
 	self._curr_processors_available += 1
-	if self._n_processors_available == self._curr_processors_available:
-		self.emit_signal("played")
-		self._interrupt_timer.start()
+	if self._curr_processors_available == self._processors.size():
+		self.play()
 
 func _on_InterruptTimer_timeout():
 	self.emit_signal("timer_finished")
