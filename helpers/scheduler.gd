@@ -6,8 +6,8 @@ var _interrupt_timer: Timer
 var _threads: Array
 var _processors: Array
 var _curr_index: int
-var _n_processors_available: int
 var _curr_processors_available: int
+var _random_generator: RandomNumberGenerator
 
 func _ready():
 	self._threads = []
@@ -17,17 +17,21 @@ func _ready():
 	self._interrupt_timer = Timer.new()
 	self._interrupt_timer.wait_time = self._INTERRUPT_TIME
 	self._interrupt_timer.one_shot = true
+	self._interrupt_timer.paused = false
 	self.add_child(self._interrupt_timer)
 # warning-ignore:return_value_discarded
 	self._interrupt_timer.connect("timeout", self, "_on_InterruptTimer_timeout")
+	self._random_generator = RandomNumberGenerator.new()
 
 func play() -> void:
-	if not self.all_threads_finished():
+	if self._interrupt_timer.paused:
+		self._interrupt_timer.paused = false
+	elif not self.all_threads_finished():
 		self.schedule_threads()
 		self._interrupt_timer.start()
 
 func pause() -> void:
-	self._interrupt_timer.stop()
+	self._interrupt_timer.paused = true
 
 func add_thread(thread: SimuThread) -> void:
 	self._threads.append(thread)
@@ -75,9 +79,19 @@ func clear() -> void:
 	self._curr_index = 0
 	self._curr_processors_available = 0
 
+func unsort_processor_list() -> void:
+	var new_list: Array = []
+	var index: int
+	while self._processors:
+		index = self._random_generator.randi()%self._processors.size()
+		new_list.append(self._processors[index])
+		self._processors.remove(index)
+	self._processors = new_list
+
 func increment_curr_n_processors_available() -> void:
 	self._curr_processors_available += 1
 	if self._curr_processors_available == self._processors.size():
+		self.unsort_processor_list()
 		self.play()
 
 func _on_InterruptTimer_timeout():

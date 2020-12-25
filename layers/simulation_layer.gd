@@ -32,9 +32,11 @@ func _on_Organizer_cpu_organized(cpu: CPU)->void:
 # warning-ignore:return_value_discarded
 	cpu.connect("interrupted", Scheduler, "increment_curr_n_processors_available")
 # warning-ignore:return_value_discarded
+	$Play.connect("button_down", cpu, "play")
+# warning-ignore:return_value_discarded
 	$Pause.connect("button_down", cpu, "pause")
 # warning-ignore:return_value_discarded
-	$Reset.connect("button_down", cpu, "reset")
+	$Reset.connect("button_down", cpu, "clear")
 	var down_l_position: Vector2 = cpu.global_position + self.CPU_DOWN_LABEL_OFFSET
 	var middle_l_position: Vector2 = cpu.global_position + self.CPU_MIDDLE_LABEL_OFFSET
 	var down_args: Dictionary = {"text": "",
