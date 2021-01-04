@@ -24,11 +24,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://helpers/organizer.gd"
 }, {
-"base": "Node",
-"class": "SemaphoreDistributor",
-"language": "GDScript",
-"path": "res://helpers/sempahore_dist.gd"
-}, {
 "base": "Sprite",
 "class": "SimuSemaphore",
 "language": "GDScript",
@@ -43,7 +38,6 @@ _global_script_class_icons={
 "CPU": "",
 "Instruction": "",
 "Organizer": "",
-"SemaphoreDistributor": "",
 "SimuSemaphore": "",
 "SimuThread": ""
 }
@@ -57,6 +51,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Scheduler="*res://helpers/scheduler.gd"
+SempahoreDist="*res://helpers/sempahore_dist.gd"
 
 [display]
 

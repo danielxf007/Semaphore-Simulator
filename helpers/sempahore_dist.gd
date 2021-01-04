@@ -1,11 +1,12 @@
 extends Node
 
-class_name SemaphoreDistributor
-
 var _semaphores: Array
 
-func set_semaphores(semaphores: Array) -> void:
-	self._semaphores = semaphores
+func _ready():
+	self._semaphores = []
+
+func add_semaphore(semaphore: SimuSemaphore) -> void:
+	self._semaphores.append(semaphore)
 
 func wait_executed(thread: SimuThread, sem_id: String) -> void:
 	for semaphore in self._semaphores:
@@ -18,3 +19,6 @@ func post_executed(sem_id: String) -> void:
 		if semaphore.get_id() == sem_id:
 			semaphore.post()
 			break
+
+func reset() -> void:
+	self._semaphores.clear()

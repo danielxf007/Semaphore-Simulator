@@ -5,14 +5,12 @@ const _INTERRUPT_TIME: float = 3.0
 var _interrupt_timer: Timer
 var _threads: Array
 var _processors: Array
-var _curr_index: int
 var _curr_processors_available: int
 var _random_generator: RandomNumberGenerator
 
 func _ready():
 	self._threads = []
 	self._processors = []
-	self._curr_index = 0
 	self._curr_processors_available = 0
 	self._interrupt_timer = Timer.new()
 	self._interrupt_timer.wait_time = self._INTERRUPT_TIME
@@ -52,46 +50,40 @@ func add_processor(processor: CPU) -> void:
 	self._curr_processors_available += 1
 
 func schedule_threads() -> void:
-	var thread: SimuThread
 	for processor in self._processors:
-		thread = self.get_current_thread()
-		if thread.can_be_executed():
-			processor.set_thread(thread)
-			self.decrement_curr_n_processors_available()
-		self.update_curr_index()
-
-func update_curr_index() -> void:
-	self._curr_index += 1
-	self._curr_index %= self._threads.size()
+		for thread in self._threads:
+			if thread.can_be_executed():
+				processor.set_thread(thread)
+				self.decrement_curr_n_processors_available()
+				break
 
 func decrement_curr_n_processors_available() -> void:
 	self._curr_processors_available -= 1
 
 func reset() -> void:
 	self._interrupt_timer.stop()
-	self._curr_index = 0
 	self._curr_processors_available = self._processors.size()
 
 func clear() -> void:
 	self._interrupt_timer.stop()
 	self._threads.clear()
 	self._processors.clear()
-	self._curr_index = 0
 	self._curr_processors_available = 0
 
-func unsort_processor_list() -> void:
+func random_sort_list(list: Array) -> Array:
 	var new_list: Array = []
+	var _list: Array = list.duplicate()
 	var index: int
-	while self._processors:
-		index = self._random_generator.randi()%self._processors.size()
-		new_list.append(self._processors[index])
-		self._processors.remove(index)
-	self._processors = new_list
+	while _list:
+		index = self._random_generator.randi()%_list.size()
+		new_list.append(_list[index])
+		_list.remove(index)
+	return new_list
 
 func increment_curr_n_processors_available() -> void:
 	self._curr_processors_available += 1
 	if self._curr_processors_available == self._processors.size():
-		self.unsort_processor_list()
+		self._threads = self.random_sort_list(self._threads)
 		self.play()
 
 func _on_InterruptTimer_timeout():

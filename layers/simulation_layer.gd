@@ -24,6 +24,8 @@ func _ready():
 	$Pause.connect("button_down", Scheduler, "pause")
 # warning-ignore:return_value_discarded
 	$Reset.connect("button_down", Scheduler, "reset")
+# warning-ignore:return_value_discarded
+	$Reset.connect("button_down", SempahoreDist, "reset")
 
 func _on_Organizer_cpu_organized(cpu: CPU)->void:
 	self.add_child(cpu)
@@ -31,6 +33,10 @@ func _on_Organizer_cpu_organized(cpu: CPU)->void:
 	Scheduler.connect("timer_finished", cpu, "interrupt")
 # warning-ignore:return_value_discarded
 	cpu.connect("interrupted", Scheduler, "increment_curr_n_processors_available")
+# warning-ignore:return_value_discarded
+	cpu.connect("wait_executed", SempahoreDist, "wait_executed")
+# warning-ignore:return_value_discarded
+	cpu.connect("post_executed", SempahoreDist, "post_executed")
 # warning-ignore:return_value_discarded
 	$Play.connect("button_down", cpu, "play")
 # warning-ignore:return_value_discarded
@@ -55,6 +61,8 @@ func _on_Organizer_cpu_organized(cpu: CPU)->void:
 
 func _on_Organizer_sem_organized(sem: SimuSemaphore)->void:
 	self.add_child(sem)
+# warning-ignore:return_value_discarded
+	$Reset.connect("button_down", sem, "reset")
 	var up_l_position: Vector2 = sem.global_position + self.SEM_UP_LABEL_OFFSET
 	var down_l_position: Vector2 = sem.global_position + self.SEM_DOWN_LABEL_OFFSET
 	var up_args: Dictionary = {"text": sem.get_id(), "align": HALIGN_CENTER,
@@ -94,9 +102,9 @@ func clear_sems() -> void:
 
 func clear_threads() -> void:
 	while(not self._threads):
-		self._threads.pop_back().queue_free().destroy()
+		self._threads.pop_back().destroy()
 
-func reset() -> void:
+func clear() -> void:
 	self.clear_labels()
 	self.clear_cpus()
 	self.clear_sems()

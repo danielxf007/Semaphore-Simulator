@@ -41,6 +41,8 @@ func reset() -> void:
 	for instruction in self._instructions:
 		instruction.reset()
 	self._PC = self.ZERO
+	self._running = false
+	self._active = true
 
 func destroy() -> void:
 	for instruction in self._instructions:

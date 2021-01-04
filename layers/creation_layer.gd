@@ -41,6 +41,8 @@ func _ready():
 	self.connect("processor_created", Scheduler, "add_processor")
 # warning-ignore:return_value_discarded
 	self.connect("thread_created", Scheduler, "add_thread")
+# warning-ignore:return_value_discarded
+	self.connect("sem_created", SempahoreDist, "add_semaphore")
 
 func is_name_already_used(elements: Array, _name: String) -> bool:
 	var already_used = false
