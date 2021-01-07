@@ -1,7 +1,5 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Main.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://layers/CreationLayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/cpu.png" type="Texture" id=4]
 [ext_resource path="res://assets/semaphore.png" type="Texture" id=5]
@@ -9,8 +7,6 @@
 [ext_resource path="res://layers/SimulationLayer.tscn" type="PackedScene" id=7]
 
 [node name="Main" type="Node"]
-script = ExtResource( 1 )
-texture = ExtResource( 2 )
 
 [node name="CreationLayer" parent="." instance=ExtResource( 3 )]
 CYCLE_TIME = 1.0
@@ -28,8 +24,10 @@ CPU_DIMENSIONS = Vector2( 128, 128 )
 [node name="SimulationLayer" parent="." instance=ExtResource( 7 )]
 visible = false
 [connection signal="creation_finished" from="CreationLayer" to="SimulationLayer" method="_on_CreationLayer_creation_finished"]
+[connection signal="creation_finished" from="CreationLayer" to="Organizer" method="reset"]
 [connection signal="processor_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_processor_created"]
 [connection signal="sem_created" from="CreationLayer" to="Organizer" method="_on_CreationLayer_sem_created"]
 [connection signal="thread_created" from="CreationLayer" to="SimulationLayer" method="_on_CreationLayer_thread_created"]
 [connection signal="cpu_organized" from="Organizer" to="SimulationLayer" method="_on_Organizer_cpu_organized"]
 [connection signal="sem_organized" from="Organizer" to="SimulationLayer" method="_on_Organizer_sem_organized"]
+[connection signal="got_back" from="SimulationLayer" to="CreationLayer" method="_on_SimulationLayer_got_back"]

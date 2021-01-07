@@ -163,3 +163,7 @@ func _on_Button_button_down():
 		self.hide()
 		self.emit_signal("creation_finished")
 		self.reset()
+
+
+func _on_SimulationLayer_got_back():
+	self.show()

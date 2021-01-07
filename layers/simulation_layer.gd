@@ -1,5 +1,5 @@
 extends Node2D
-
+signal got_back()
 const SEM_UP_LABEL_OFFSET: Vector2 = Vector2(-32, -96)
 const SEM_DOWN_LABEL_OFFSET: Vector2 = Vector2(-32, 32)
 const SEM_LABEL_DIMENSION: Vector2 = Vector2(64, 64)
@@ -25,10 +25,13 @@ func _ready():
 # warning-ignore:return_value_discarded
 	$Reset.connect("button_down", Scheduler, "reset")
 # warning-ignore:return_value_discarded
-	$Reset.connect("button_down", SempahoreDist, "reset")
+	$Back.connect("button_down", Scheduler, "clear")
+# warning-ignore:return_value_discarded
+	$Back.connect("button_down", SempahoreDist, "reset")
 
 func _on_Organizer_cpu_organized(cpu: CPU)->void:
 	self.add_child(cpu)
+	self._cpus.append(cpu)
 # warning-ignore:return_value_discarded
 	Scheduler.connect("timer_finished", cpu, "interrupt")
 # warning-ignore:return_value_discarded
@@ -61,6 +64,7 @@ func _on_Organizer_cpu_organized(cpu: CPU)->void:
 
 func _on_Organizer_sem_organized(sem: SimuSemaphore)->void:
 	self.add_child(sem)
+	self._sems.append(sem)
 # warning-ignore:return_value_discarded
 	$Reset.connect("button_down", sem, "reset")
 	var up_l_position: Vector2 = sem.global_position + self.SEM_UP_LABEL_OFFSET
@@ -88,27 +92,22 @@ func create_label(args: Dictionary) -> Label:
 	_label.set_position(args["position"])
 	return _label
 
-func clear_labels() -> void:
-	while(not self._labels.empty()):
-		self._labels.pop_back().queue_free()
-
-func clear_cpus() -> void:
-	while(not self._cpus):
-		self._cpus.pop_back().queue_free()
-
-func clear_sems() -> void:
-	while(not self._sems):
-		self._sems.pop_back().queue_free()
 
 func clear_threads() -> void:
 	while(not self._threads):
 		self._threads.pop_back().destroy()
 
 func clear() -> void:
-	self.clear_labels()
-	self.clear_cpus()
-	self.clear_sems()
+	for child in self.get_children():
+		if child.get_class() != "Button":
+			self.remove_child(child)
+			child.free()
 	self.clear_threads()
+	self._cpus.clear()
+	self._labels.clear()
+	self._sems.clear()
+	self.emit_signal("got_back")
+	self.hide()
 
 
 func _on_CreationLayer_thread_created(thread: SimuThread) -> void:

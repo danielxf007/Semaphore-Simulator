@@ -44,3 +44,4 @@ text = "Back"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="button_down" from="Back" to="." method="clear"]

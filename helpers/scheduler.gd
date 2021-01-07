@@ -20,6 +20,7 @@ func _ready():
 # warning-ignore:return_value_discarded
 	self._interrupt_timer.connect("timeout", self, "_on_InterruptTimer_timeout")
 	self._random_generator = RandomNumberGenerator.new()
+	self._random_generator.randomize()
 
 func play() -> void:
 	if self._interrupt_timer.paused:
@@ -33,9 +34,6 @@ func pause() -> void:
 
 func add_thread(thread: SimuThread) -> void:
 	self._threads.append(thread)
-
-func get_current_thread() -> SimuThread:
-	return self._threads[self._curr_index]
 
 func all_threads_finished() -> bool:
 	var finished: bool = true
@@ -66,9 +64,11 @@ func reset() -> void:
 
 func clear() -> void:
 	self._interrupt_timer.stop()
+	self._interrupt_timer.paused = false
 	self._threads.clear()
 	self._processors.clear()
 	self._curr_processors_available = 0
+
 
 func random_sort_list(list: Array) -> Array:
 	var new_list: Array = []

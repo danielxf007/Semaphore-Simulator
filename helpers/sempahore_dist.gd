@@ -21,4 +21,5 @@ func post_executed(sem_id: String) -> void:
 			break
 
 func reset() -> void:
-	self._semaphores.clear()
+	if self._semaphores:
+		self._semaphores.clear()

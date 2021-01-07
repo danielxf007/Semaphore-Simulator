@@ -55,7 +55,7 @@ SempahoreDist="*res://helpers/sempahore_dist.gd"
 
 [display]
 
-window/size/height=768
+window/size/resizable=false
 
 [rendering]
 
